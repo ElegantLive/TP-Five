@@ -26,7 +26,7 @@ class ExceptionHandler extends Handle
             $this->msg = $e->msg;
             $this->errorCode = $e->errorCode;
         }else{
-            if(!config('app_debug')){
+            if(config('app_debug')){
                 return parent::render($e);
             }else{
                 $this->code = 500;
