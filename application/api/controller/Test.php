@@ -7,12 +7,14 @@
  */
 
 namespace app\api\controller;
-
+use app\api\model\Test as TestModel;
 
 class Test
 {
     public function test($params)
     {
+        $test = new TestModel();
+        $test->TestErr();
         return 'test'.$params;
     }
 }

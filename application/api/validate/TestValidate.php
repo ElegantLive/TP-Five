@@ -12,9 +12,15 @@ namespace app\api\validate;
 class TestValidate extends BaseValidate
 {
     protected $rule = [
-        ['id','require','id不能为空'],
-        ['name','require|email','name不能为空name不能为空'],
-        ['mobile','require|isMobile','手机号码格式不正确']
+        'id' => 'require',
+        'name' => 'require|email',
+        'mobile' => 'require|isMobile'
+    ];
+
+    protected $message = [
+        'id' => 'id不能为空',
+        'name' => 'name不能为空name不能为空',
+        'mobile' => '手机号码格式不正确'
     ];
 
 }

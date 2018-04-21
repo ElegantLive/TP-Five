@@ -11,12 +11,15 @@ namespace app\api\controller\v1;
 
 use app\api\validate\TestValidate;
 use think\Controller;
+use app\api\model\Test as TestModel;
 
 class First extends Controller
 {
-    public function info($id,$name)
+    public function info($id,$name,$mobile)
     {
         (new TestValidate())->goCheck();
-        return $id.$name;
+        $test = new TestModel();
+        $test->TestErr();
+        return $id.$name.$mobile;
     }
 }
