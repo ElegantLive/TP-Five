@@ -9,16 +9,17 @@
 namespace app\lib\exception;
 
 use Exception;
-use Throwable;
 
 class BaseException extends Exception
 {
     // http 状态码
     public $code = 400;
     // 错误提示信息
-    public $msg = '参数错误';
+    public $message = '参数错误';
     // 错误码
     public $errorCode = 10000;
+    // 返回数据
+    public $data = null;
 
     public function __construct($param)
     {
@@ -28,11 +29,14 @@ class BaseException extends Exception
         if(array_key_exists('code',$param)){
             $this->code = $param['code'];
         }
-        if(array_key_exists('msg',$param)){
-            $this->msg = $param['msg'];
+        if(array_key_exists('message',$param)){
+            $this->message = $param['message'];
         }
         if(array_key_exists('errorCode',$param)){
             $this->errorCode = $param['errorCode'];
+        }
+        if(array_key_exists('data',$param)){
+            $this->data = $param['data'];
         }
     }
 }

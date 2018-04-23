@@ -16,21 +16,24 @@ use think\Request;
 class ExceptionHandler extends Handle
 {
     private $code;
-    private $msg;
+    private $message;
     private $errorCode;
+    private $data;
     private $request_url;
     public function render(Exception $e)
     {
         if($e instanceof BaseException){
             $this->code = $e->code;
-            $this->msg = $e->msg;
+            $this->message = $e->message;
+            $this->data = $e->data;
             $this->errorCode = $e->errorCode;
         }else{
             if(config('app_debug')){
                 return parent::render($e);
             }else{
                 $this->code = 500;
-                $this->msg = '未知错误';
+                $this->message = '未知错误';
+                $this->data = null;
                 $this->errorCode = '999';
                 // 记录日志
                 self::recordLog($e);
@@ -40,8 +43,9 @@ class ExceptionHandler extends Handle
         $this->request_url = Request::instance()->url();
 
         $res = [
-            'msg' => $this->msg,
             'errorCode' => $this->errorCode,
+            'message' => $this->message,
+            'data' => $this->data,
             'request_url' => $this->request_url
         ];
 

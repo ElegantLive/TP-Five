@@ -20,7 +20,7 @@ class BaseValidate extends Validate
 
         if(!$this->check($params)){
             throw new ParameterException([
-                'msg' =>  $this->error
+                'message' =>  $this->error
             ]);
         }
         return true;
