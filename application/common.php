@@ -89,34 +89,40 @@ function getRandChar($length)
     return $str;
 }
 
-function fromArrayToModel($m , $array)
+function fromArrayToModel($m, $array)
 {
-    foreach ($array as $key => $value)
-    {
+    foreach ($array as $key => $value) {
         $m[$key] = $value;
     }
     return $m;
 }
-//HTTP请求（支持HTTP/HTTPS，支持GET/POST）
- function http_request($url, $data = null)
- {
-     $curl = curl_init();
-     curl_setopt($curl, CURLOPT_URL, $url);
-     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
 
-     if (!empty($data)){
-         curl_setopt($curl, CURLOPT_POST, 1);
-         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-     }
-     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-     $output = curl_exec($curl);
-     curl_close($curl);
-     return $output;
- }
+//HTTP请求（支持HTTP/HTTPS，支持GET/POST）
+function http_request($url, $data = null)
+{
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+    if (!empty($data)) {
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    }
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    $output = curl_exec($curl);
+    curl_close($curl);
+    return $output;
+}
 
 function jump($url)
 {
-    header("Location:$url");exit;
+    header("Location:$url");
+    exit;
+}
+
+function uncamelize($camelCaps, $separator = '_')
+{
+    return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
 }
 
