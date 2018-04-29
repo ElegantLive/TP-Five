@@ -9,10 +9,96 @@
 namespace app\api\service;
 
 
+use app\api\validate\LoginValidate;
+use app\lib\enum\ScopeEnum;
+use app\lib\exception\ForbiddenException;
+use app\lib\exception\SuccessMessage;
+use app\lib\exception\TokenException;
+use think\Cache;
+use think\Request;
+
 class Token
 {
-    public function getToken()
+    public function getToken($mobile, $password)
     {
+        (new LoginValidate())->goCheck();
 
+        $token = UserToken::get($mobile, $password);
+
+        throw new SuccessMessage([
+            'data' => ['token' => $token]
+        ]);
     }
+
+    protected static function createRandKey()
+    {
+        $randChar = getRandChar(32);
+        $timestamp = time();
+
+        return md5($randChar . $timestamp);
+    }
+
+    protected static function saveCache($value)
+    {
+        $key = self::createRandKey();
+        $expire_in = config('setting.token_expire_in');
+        $res = Cache::store('redis')->set($key, $value, $expire_in);
+        if (!$res) {
+            throw new TokenException([
+                'message' => '服务器缓存异常',
+                'errorCode' => '10003'
+            ]);
+        }
+
+        return $key;
+    }
+
+    public static function getCurrentTokenVar($key)
+    {
+        $token = Request::instance()->header('token');
+
+        $info = Cache::store('redis')->get($token);
+
+        if (!$info || is_array($info) || array_key_exists($key, $info)) {
+            throw new TokenException([
+                'message' => '获取Token失败，请登陆'
+            ]);
+        }
+
+        return $info[$key];
+    }
+
+    public static function authentication($auth)
+    {
+        switch ($auth) {
+            case 'user':
+                $Identity = ScopeEnum::User;
+                break;
+            case 'other':
+                $Identity = ScopeEnum::Other;
+                break;
+            case 'admin':
+                $Identity = ScopeEnum::Admin;
+                break;
+            default:
+                throw new TokenException([
+                    'message' => '身份校验角色不存在'
+                ]);
+        }
+
+        $scope = self::getCurrentTokenVar('scope');
+
+        if (!$scope) {
+            throw new TokenException([
+                'message' => '身份认证失败，请登陆'
+            ]);
+        }
+
+        if ($scope != $Identity) {
+            throw new ForbiddenException([
+                'message' => '你无权访问'
+            ]);
+        }
+    }
+
 }

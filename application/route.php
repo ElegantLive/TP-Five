@@ -13,6 +13,11 @@ use think\Route;
 
 Route::get('test/:params','api/Test/test');
 Route::get('info','api/v1.First/info');
+Route::get('get','api/v1.First/info');
+
+Route::group(':version/token',function (){
+    Route::post('user','api/:version.Token/getUserToken');
+});
 
 return [
     '__pattern__' => [

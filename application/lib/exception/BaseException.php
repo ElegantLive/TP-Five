@@ -23,19 +23,19 @@ class BaseException extends Exception
 
     public function __construct($param)
     {
-        if(!is_array($param)){
-            return ;
+        if (!is_array($param)) {
+            return;
         }
-        if(array_key_exists('code',$param)){
+        if (array_key_exists('code', $param)) {
             $this->code = $param['code'];
         }
-        if(array_key_exists('message',$param)){
+        if (array_key_exists('message', $param)) {
             $this->message = $param['message'];
         }
-        if(array_key_exists('errorCode',$param)){
+        if (array_key_exists('errorCode', $param)) {
             $this->errorCode = $param['errorCode'];
         }
-        if(array_key_exists('data',$param)){
+        if (array_key_exists('data', $param)) {
             $this->data = $param['data'];
         }
     }

@@ -20,23 +20,24 @@ class ExceptionHandler extends Handle
     private $errorCode;
     private $data;
     private $request_url;
+
     public function render(Exception $e)
     {
-        if($e instanceof BaseException){
+        if ($e instanceof BaseException) {
             $this->code = $e->code;
             $this->message = $e->message;
             $this->data = $e->data;
             $this->errorCode = $e->errorCode;
-        }else{
-            if(config('app_debug')){
+        } else {
+            if (config('app_debug')) {
                 return parent::render($e);
-            }else{
+            } else {
                 $this->code = 500;
                 $this->message = '未知错误';
                 $this->data = null;
                 $this->errorCode = '999';
                 // 记录日志
-                self::recordLog($e);
+                self::recordLog($e->getMessage());
             }
         }
 
@@ -49,11 +50,11 @@ class ExceptionHandler extends Handle
             'request_url' => $this->request_url
         ];
 
-        return json($res,$this->code);
+        return json($res, $this->code);
     }
 
-    private function recordLog($e)
+    private function recordLog($error)
     {
-        Log::record($e->getMessage(),'error');
+        Log::record($error, 'error');
     }
 }

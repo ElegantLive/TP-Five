@@ -12,5 +12,5 @@ class ParameterException extends BaseException
 {
     public $code = 401;
     public $message = '参数错误';
-    public $errorCode = 10000;
+    public $errorCode = 10001;
 }
