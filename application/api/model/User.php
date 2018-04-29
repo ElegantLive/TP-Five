@@ -11,10 +11,10 @@ namespace app\api\model;
 
 class User extends BaseModel
 {
-    public static function check(int $mobile,string $password)
+    public static function check($mobile,$password)
     {
         $where['mobile'] = $mobile;
-        $where['password'] = $password;
+        $where['password'] = md5($password);
 
         $result = self::get($where);
 

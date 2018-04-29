@@ -9,27 +9,14 @@
 namespace app\api\service;
 
 
-use app\api\validate\LoginValidate;
 use app\lib\enum\ScopeEnum;
 use app\lib\exception\ForbiddenException;
-use app\lib\exception\SuccessMessage;
 use app\lib\exception\TokenException;
 use think\Cache;
 use think\Request;
 
 class Token
 {
-    public function getToken($mobile, $password)
-    {
-        (new LoginValidate())->goCheck();
-
-        $token = UserToken::get($mobile, $password);
-
-        throw new SuccessMessage([
-            'data' => ['token' => $token]
-        ]);
-    }
-
     protected static function createRandKey()
     {
         $randChar = getRandChar(32);
@@ -59,7 +46,7 @@ class Token
 
         $info = Cache::store('redis')->get($token);
 
-        if (!$info || is_array($info) || array_key_exists($key, $info)) {
+        if (!$info || !is_array($info) || !array_key_exists($key, $info)) {
             throw new TokenException([
                 'message' => '获取Token失败，请登陆'
             ]);

@@ -26,7 +26,7 @@ class UserToken extends Token
         }
 
         $value = [
-            'info' => $user,
+            'timestamp' => time(),
             'uid' => $user['id'],
             'scope' => ScopeEnum::User
         ];

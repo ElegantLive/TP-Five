@@ -30,7 +30,7 @@ class BaseValidate extends Validate
     {
         $reg = '^1(3|4|5|7|8)[0-9]\d{8}$^';
 
-        if(preg_grep($reg,$mobile)) return true;
+        if(preg_match($reg,$mobile)) return true;
 
         return false;
     }
@@ -65,7 +65,7 @@ class BaseValidate extends Validate
         $r1 = '^[a-z]$^';
         $r2 = '^[A-Z]$^';
         $r3 = '^[0-9]$^';
-        if(preg_grep($r1,$value) || preg_grep($r2,$value) || preg_grep($r3,$value)) return true;
+        if(preg_match($r1,$value) || preg_match($r2,$value) || preg_match($r3,$value)) return true;
 
         return false;
     }

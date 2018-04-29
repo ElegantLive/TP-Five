@@ -10,7 +10,9 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
-
+/*
+ * 测试
+ */
 Route::get('test/:params','api/Test/test');
 Route::get('info','api/v1.First/info');
 Route::get('get','api/v1.First/info');
@@ -18,6 +20,12 @@ Route::get('get','api/v1.First/info');
 Route::group(':version/token',function (){
     Route::post('user','api/:version.Token/getUserToken');
 });
+
+Route::group(':version/user',function (){
+   Route::get('info','api/:version.User/Info');
+});
+
+Route::miss('api/Miss/miss');
 
 return [
     '__pattern__' => [

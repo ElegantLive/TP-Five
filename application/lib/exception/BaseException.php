@@ -21,7 +21,7 @@ class BaseException extends Exception
     // 返回数据
     public $data = null;
 
-    public function __construct($param)
+    public function __construct(array $param = [])
     {
         if (!is_array($param)) {
             return;
