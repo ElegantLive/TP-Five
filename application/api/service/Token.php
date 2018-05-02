@@ -17,6 +17,24 @@ use think\Request;
 
 class Token
 {
+    protected static function getIdentity($key)
+    {
+        $Identity_arr = [
+            'user' => ScopeEnum::User,
+            'other' => ScopeEnum::Other,
+            'admin' => ScopeEnum::Admin
+        ];
+
+        if (array_key_exists($key, $Identity_arr)) {
+            return $Identity_arr[$key];
+        }
+
+        throw new TokenException([
+            'message' => '校验的身份不存在',
+            'errorCode' => 10002
+        ]);
+    }
+
     protected static function createRandKey()
     {
         $randChar = getRandChar(32);
@@ -48,7 +66,7 @@ class Token
 
         if (!$info || !is_array($info) || !array_key_exists($key, $info)) {
             throw new TokenException([
-                'message' => '获取Token失败，请登陆'
+                'message' => 'Token无效或已过期'
             ]);
         }
 
@@ -57,21 +75,7 @@ class Token
 
     public static function authentication($auth)
     {
-        switch ($auth) {
-            case 'user':
-                $Identity = ScopeEnum::User;
-                break;
-            case 'other':
-                $Identity = ScopeEnum::Other;
-                break;
-            case 'admin':
-                $Identity = ScopeEnum::Admin;
-                break;
-            default:
-                throw new TokenException([
-                    'message' => '身份校验角色不存在'
-                ]);
-        }
+        $Identity = self::getIdentity($auth);
 
         $scope = self::getCurrentTokenVar('scope');
 

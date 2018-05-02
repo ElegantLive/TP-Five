@@ -14,7 +14,7 @@ use think\Model;
 class BaseModel extends Model
 {
     protected $auto = ['password'];
-    protected $hidden = ['delete_time','password'];
+    protected $hidden = ['delete_time', 'password'];
     protected $readonly = ['name'];
 
     protected function setPasswordAttr($value)
@@ -35,9 +35,42 @@ class BaseModel extends Model
         return $status[$value];
     }
 
-    public static function pages(array $map,string $field = '*',string $order = 'create_time desc',int $page = 1,int $limit = 10 ,bool $simple = false)
+    protected function setStatusAttr($value)
     {
-        return self::where($map)->field($field)->order($order)->paginate($limit,$simple,['page'=>$page]);
+        $status = [
+            '正常' => 'NORMAL',
+            '成功' => 'SUCCESS',
+            '处理中' => 'PROCESS',
+            '取消' => 'CANCEL',
+            '待审核' => 'WAIT_VERIFY'
+        ];
+
+        return $status[$value];
+    }
+
+    protected function getSexAttr($value)
+    {
+        $sex = [
+            'MAN' => '男',
+            'WOMAN' => '女'
+        ];
+
+        return $sex[$value];
+    }
+
+    protected function setSexAttr($value)
+    {
+        $sex = [
+            '男' => 'MAN',
+            '女' => 'WOMAN'
+        ];
+
+        return $sex[$value];
+    }
+
+    public static function getList(array $map, string $field = '*', string $order = 'create_time desc', int $page = 1, int $limit = 10, bool $simple = false)
+    {
+        return self::where($map)->field($field)->order($order)->paginate($limit, $simple, ['page' => $page]);
     }
 
 }

@@ -10,19 +10,21 @@
 // +----------------------------------------------------------------------
 
 use think\Route;
+
 /*
  * 测试
  */
-Route::get('test/:params','api/Test/test');
-Route::get('info','api/v1.First/info');
-Route::get('get','api/v1.First/info');
+Route::get('test/:params', 'api/Test/test');
+Route::get('info', 'api/v1.First/info');
+Route::get('get', 'api/v1.First/info');
 
-Route::group(':version/token',function (){
-    Route::post('user','api/:version.Token/getUserToken');
+Route::group(':version/token', function () {
+    Route::post('user', 'api/:version.Token/getUserToken');
 });
 
-Route::group(':version/user',function (){
-   Route::get('info','api/:version.User/Info');
+Route::group(':version/user', function () {
+    Route::get('info', 'api/:version.User/Info');
+    Route::get('get_list', 'api/:version.User/getList');
 });
 
 Route::miss('api/Miss/miss');
@@ -31,8 +33,8 @@ return [
     '__pattern__' => [
         'name' => '\w+',
     ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
+    '[hello]' => [
+        ':id' => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
