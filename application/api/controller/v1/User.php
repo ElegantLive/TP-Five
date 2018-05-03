@@ -39,6 +39,15 @@ class User extends BaseController
     public function register()
     {
         (new RegisterValidate())->goCheck();
+
+        $name = UserModel::register();
+
+        throw new SuccessMessage([
+            'message' => '注册成功',
+            'data'=>[
+                'name' => $name
+            ]
+        ]);
     }
 
     public function getList(){

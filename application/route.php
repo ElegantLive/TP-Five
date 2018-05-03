@@ -11,7 +11,7 @@
 
 use think\Route;
 
-/*
+/**
  * 测试
  */
 Route::get('test/:params', 'api/Test/test');
@@ -24,6 +24,7 @@ Route::group(':version/token', function () {
 
 Route::group(':version/user', function () {
     Route::get('info', 'api/:version.User/Info');
+    Route::post('register', 'api/:version.User/register');
     Route::get('get_list', 'api/:version.User/getList');
 });
 

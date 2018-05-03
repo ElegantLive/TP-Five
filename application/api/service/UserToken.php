@@ -24,7 +24,7 @@ class UserToken extends Token
      */
     public static function get($mobile, $password)
     {
-        $user = User::check($mobile, $password);
+        $user = User::checkExist(['mobile'=> $mobile,'password' => md5($password)]);
         if (!$user) {
             throw new TokenException([
                 'message' => '账户名或密码错误',

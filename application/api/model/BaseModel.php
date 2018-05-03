@@ -13,7 +13,7 @@ use think\Model;
 
 class BaseModel extends Model
 {
-    protected $auto = ['password','status','sex'];
+    protected $auto = ['password', 'status'];
     protected $hidden = ['delete_time', 'password'];
     protected $readonly = ['name'];
 
@@ -83,15 +83,15 @@ class BaseModel extends Model
      * @param $value
      * @return mixed
      */
-    protected function setSexAttr($value)
-    {
-        $sex = [
-            '男' => 'MAN',
-            '女' => 'WOMAN'
-        ];
-
-        return $sex[$value];
-    }
+//    protected function setSexAttr($value)
+//    {
+//        $sex = [
+//            '男' => 'MAN',
+//            '女' => 'WOMAN'
+//        ];
+//
+//        return $sex[$value];
+//    }
 
     /**
      * 查询列表分页核心代码(不包含模型关联)
