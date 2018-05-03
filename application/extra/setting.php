@@ -7,6 +7,6 @@
  */
 
 return [
-  'name' => 'name-test',
+    'name' => 'name-test',
     'token_expire_in' => 60
 ];

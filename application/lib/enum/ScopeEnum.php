@@ -8,10 +8,13 @@
 
 namespace app\lib\enum;
 
-
+/**
+ * 定义身份作用域
+ * Class ScopeEnum
+ * @package app\lib\enum
+ */
 class ScopeEnum
 {
-    // 定义身份作用域
     const User = 16;
 
     const Other = 32;

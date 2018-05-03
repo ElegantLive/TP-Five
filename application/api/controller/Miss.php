@@ -11,6 +11,11 @@ namespace app\api\controller;
 
 use app\lib\exception\MissException;
 
+/**
+ * 网页丢失类
+ * Class Miss
+ * @package app\api\controller
+ */
 class Miss
 {
     public function miss()

@@ -13,6 +13,11 @@ use think\exception\Handle;
 use think\Log;
 use think\Request;
 
+/**
+ * 自定义全局异常渲染
+ * Class ExceptionHandler
+ * @package app\lib\exception
+ */
 class ExceptionHandler extends Handle
 {
     private $code;

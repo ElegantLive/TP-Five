@@ -9,6 +9,11 @@
 namespace app\api\controller;
 use app\api\model\Test as TestModel;
 
+/**
+ * 测试控制器类
+ * Class Test
+ * @package app\api\controller
+ */
 class Test
 {
     public function test($params)

@@ -13,6 +13,11 @@ use app\api\validate\TestValidate;
 use think\Controller;
 use app\api\model\Test as TestModel;
 
+/**
+ * 测试v1控制器
+ * Class First
+ * @package app\api\controller\v1
+ */
 class First extends Controller
 {
     public function info($id,$name,$mobile)

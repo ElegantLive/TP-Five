@@ -8,7 +8,11 @@
 
 namespace app\api\validate;
 
-
+/**
+ * 测试验证器
+ * Class TestValidate
+ * @package app\api\validate
+ */
 class TestValidate extends BaseValidate
 {
     protected $rule = [

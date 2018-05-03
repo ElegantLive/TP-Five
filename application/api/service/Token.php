@@ -17,6 +17,12 @@ use think\Request;
 
 class Token
 {
+    /**
+     * 获取校验身份
+     * @param $key
+     * @return mixed
+     * @throws TokenException
+     */
     protected static function getIdentity($key)
     {
         $Identity_arr = [
@@ -35,6 +41,10 @@ class Token
         ]);
     }
 
+    /**
+     * 生成token身份令牌
+     * @return string
+     */
     protected static function createRandKey()
     {
         $randChar = getRandChar(32);
@@ -43,6 +53,12 @@ class Token
         return md5($randChar . $timestamp);
     }
 
+    /**
+     * 服务器cache缓存token
+     * @param $value
+     * @return string
+     * @throws TokenException
+     */
     protected static function saveCache($value)
     {
         $key = self::createRandKey();
@@ -58,6 +74,12 @@ class Token
         return $key;
     }
 
+    /**
+     * 获取token身份信息
+     * @param $key
+     * @return mixed
+     * @throws TokenException
+     */
     public static function getCurrentTokenVar($key)
     {
         $token = Request::instance()->header('token');
@@ -73,6 +95,12 @@ class Token
         return $info[$key];
     }
 
+    /**
+     * 验证专有权限
+     * @param $auth
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
     public static function authentication($auth)
     {
         $Identity = self::getIdentity($auth);

@@ -17,6 +17,14 @@ use app\lib\exception\SuccessMessage;
 class Token extends BaseController
 {
 
+    /**
+     * 用户登陆
+     * @param $mobile
+     * @param $password
+     * @throws SuccessMessage
+     * @throws \app\lib\exception\ParameterException
+     * @throws \app\lib\exception\TokenException
+     */
     public function getUserToken($mobile, $password)
     {
         (new LoginValidate())->goCheck();

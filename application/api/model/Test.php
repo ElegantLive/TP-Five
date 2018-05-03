@@ -10,6 +10,11 @@ namespace app\api\model;
 
 use Exception;
 
+/**
+ * 测试模型类
+ * Class Test
+ * @package app\api\model
+ */
 class Test
 {
     public function TestErr()

@@ -14,7 +14,7 @@ class User extends BaseModel
     public static function check($mobile,$password)
     {
         $where['mobile'] = $mobile;
-        $where['password'] = md5($password);
+        $where['password'] = self::setPasswordAttr($password);
 
         $result = self::get($where);
 

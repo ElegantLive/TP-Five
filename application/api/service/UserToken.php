@@ -15,6 +15,13 @@ use app\lib\exception\TokenException;
 
 class UserToken extends Token
 {
+    /**
+     * 获取用户身份令牌token
+     * @param $mobile
+     * @param $password
+     * @return string
+     * @throws TokenException
+     */
     public static function get($mobile, $password)
     {
         $user = User::check($mobile, $password);

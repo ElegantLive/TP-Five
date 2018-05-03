@@ -14,6 +14,11 @@ use think\Validate;
 
 class BaseValidate extends Validate
 {
+    /**
+     * 验证器核心
+     * @return bool
+     * @throws ParameterException
+     */
     public function goCheck()
     {
         $params = Request::instance()->param();
@@ -26,6 +31,14 @@ class BaseValidate extends Validate
         return true;
     }
 
+    /**
+     * 校验手机号
+     * @param $mobile
+     * @param string $rule
+     * @param string $data
+     * @param string $fieid
+     * @return bool
+     */
     protected function isMobile($mobile,$rule='',$data='',$fieid='')
     {
         $reg = '^1(3|4|5|7|8)[0-9]\d{8}$^';
@@ -35,6 +48,14 @@ class BaseValidate extends Validate
         return false;
     }
 
+    /**
+     * 不为空
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $fieid
+     * @return bool
+     */
     protected function isNotEmpty($value,$rule='',$data='',$fieid='')
     {
         if(empty($value)) return false;
@@ -51,6 +72,14 @@ class BaseValidate extends Validate
         return false;
     }
 
+    /**
+     * 校验正整数
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $fieid
+     * @return bool
+     */
     protected function isPositiveInteger($value,$rule='',$data='',$fieid ='')
     {
         if(empty($value)) return false;
@@ -60,6 +89,14 @@ class BaseValidate extends Validate
         return false;
     }
 
+    /**
+     * 校验密码
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $fieid
+     * @return bool
+     */
     protected function checkPwd($value,$rule='',$data='',$fieid ='')
     {
         $r1 = '^[a-z]$^';
@@ -70,6 +107,14 @@ class BaseValidate extends Validate
         return false;
     }
 
+    /**
+     * 校验短信验证码
+     * @param $value
+     * @param string $rule
+     * @param string $data
+     * @param string $fieid
+     * @return bool
+     */
     protected function checkSMSCode($value,$rule='',$data='',$fieid ='')
     {
         if(!is_numeric($value) && (strlen($value) != 6) && ($value < 0)) return false;

@@ -8,7 +8,11 @@
 
 namespace app\lib\exception;
 
-
+/**
+ * 页面丢失
+ * Class MissException
+ * @package app\lib\exception
+ */
 class MissException extends BaseException
 {
     public $code = 404;

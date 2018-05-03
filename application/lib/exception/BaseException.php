@@ -10,18 +10,20 @@ namespace app\lib\exception;
 
 use Exception;
 
+/**
+ * 自定义全局异常基类
+ * Class BaseException
+ * @package app\lib\exception
+ */
 class BaseException extends Exception
 {
-    // http 状态码
     public $code = 400;
-    // 错误提示信息
     public $message = '参数错误';
-    // 错误码
     public $errorCode = 10000;
-    // 返回数据
     public $data = null;
 
-    public function __construct(array $param = []){
+    public function __construct(array $param = [])
+    {
         if (!is_array($param)) {
             return;
         }

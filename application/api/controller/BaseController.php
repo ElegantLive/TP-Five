@@ -14,6 +14,12 @@ use think\Controller;
 
 class BaseController extends Controller
 {
+    /**
+     * 验证专有权限
+     * @param $Identity
+     * @throws \app\lib\exception\ForbiddenException
+     * @throws \app\lib\exception\TokenException
+     */
     public function checkIdentity($Identity)
     {
         Token::authentication($Identity);
