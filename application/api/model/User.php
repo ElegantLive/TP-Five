@@ -15,6 +15,48 @@ use think\Exception;
 
 class User extends BaseModel
 {
+    protected $readonly = ['name'];
+
+    /**
+     * 密码自动完成
+     * @param $value
+     * @return string
+     */
+    protected function setPasswordAttr($value)
+    {
+        return md5($value);
+    }
+
+    /**
+     * 性别获取器
+     * @param $value
+     * @return mixed
+     */
+    protected function getSexAttr($value)
+    {
+        $sex = [
+            'MAN' => '男',
+            'WOMAN' => '女'
+        ];
+
+        return $sex[$value];
+    }
+
+    /**
+     * 性别自动完成
+     * @param $value
+     * @return mixed
+     */
+    protected function setSexAttr($value)
+    {
+        $sex = [
+            '男' => 'MAN',
+            '女' => 'WOMAN'
+        ];
+
+        return $sex[$value];
+    }
+
     public static function register()
     {
         Db::startTrans();
@@ -27,19 +69,19 @@ class User extends BaseModel
                 throw new Exception('用户名已存在！换一个吧');
             }
 
-            $mobile = self::checkExist(['name' => input('post.mobile')]);
+            $mobile = self::checkExist(['mobile' => input('post.mobile')]);
 
             if($mobile){
                 throw new Exception('该手机号码已被绑定！换一个吧');
             }
 
-            $user = self::create($input);
+            $user = self::create($input,true);
 
             if(!$user){
                 throw new Exception('用户注册失败！');
             }else{
                 Db::commit();
-                return $user->name;
+                return $user->data['name'];
             }
 
         }catch (Exception $e){
