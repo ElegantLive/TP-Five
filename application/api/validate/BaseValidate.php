@@ -108,7 +108,7 @@ class BaseValidate extends Validate
     }
 
     /**
-     * 校验短信验证码
+     * 校验短信验证码格式
      * @param $value
      * @param string $rule
      * @param string $data

@@ -19,10 +19,9 @@ class Test
 {
     public function TestErr()
     {
-        try{
-            $res = 1/0;
-        }catch (Exception $ex)
-        {
+        try {
+            $res = 1 / 0;
+        } catch (Exception $ex) {
 //            throw $ex;
         }
         return 'ok';

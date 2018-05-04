@@ -61,30 +61,29 @@ class User extends BaseModel
     {
         Db::startTrans();
 
-        $input = input('post.');
-        try{
+        try {
             $name = self::checkExist(['name' => input('post.name')]);
 
-            if($name){
+            if ($name) {
                 throw new Exception('用户名已存在！换一个吧');
             }
 
             $mobile = self::checkExist(['mobile' => input('post.mobile')]);
 
-            if($mobile){
+            if ($mobile) {
                 throw new Exception('该手机号码已被绑定！换一个吧');
             }
 
-            $user = self::create($input,true);
+            $user = self::create(input('post.'), true);
 
-            if(!$user){
+            if (!$user) {
                 throw new Exception('用户注册失败！');
-            }else{
+            } else {
                 Db::commit();
                 return $user->data['name'];
             }
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             Db::rollback();
 
             throw new CreateException([
@@ -98,7 +97,7 @@ class User extends BaseModel
     {
         $res = self::get($map);
 
-        if(!$res) return false;
+        if (!$res) return false;
 
         return $res;
     }

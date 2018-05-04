@@ -56,7 +56,7 @@ class BaseController extends Controller
             $new_arr = [];
 
             foreach ($options['except'] as $action) {
-                $new_arr[] = uncamelize($action,'');
+                $new_arr[] = uncamelize($action, '');
             }
 
             $options['except'] = $new_arr;

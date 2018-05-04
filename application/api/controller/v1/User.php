@@ -44,15 +44,16 @@ class User extends BaseController
 
         throw new SuccessMessage([
             'message' => '注册成功',
-            'data'=>[
+            'data' => [
                 'name' => $name
             ]
         ]);
     }
 
-    public function getList(){
+    public function getList()
+    {
         $user = new UserModel();
-        $list = $user->paginate(2,10);
+        $list = $user->paginate(2, 10);
         return json($list);
     }
 }

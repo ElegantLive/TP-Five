@@ -17,23 +17,21 @@ use think\Request;
 
 class Token
 {
+
     /**
      * 获取校验身份
      * @param $key
      * @return mixed
      * @throws TokenException
      */
-    protected static function getIdentity($key)
+    protected static function getIdentityKey(string $key)
     {
         $Identity_arr = [
             'user' => ScopeEnum::User,
             'other' => ScopeEnum::Other,
             'admin' => ScopeEnum::Admin
         ];
-
-        if (array_key_exists($key, $Identity_arr)) {
-            return $Identity_arr[$key];
-        }
+        if (array_key_exists($key, $Identity_arr)) return $Identity_arr[$key];
 
         throw new TokenException([
             'message' => '校验的身份不存在',
@@ -59,7 +57,7 @@ class Token
      * @return string
      * @throws TokenException
      */
-    protected static function saveCache($value)
+    protected static function saveCache(array $value)
     {
         $key = self::createRandKey();
         $expire_in = config('setting.token_expire_in');
@@ -80,7 +78,7 @@ class Token
      * @return mixed
      * @throws TokenException
      */
-    public static function getCurrentTokenVar($key)
+    public static function getCurrentTokenVar(string $key)
     {
         $token = Request::instance()->header('token');
 
@@ -101,9 +99,9 @@ class Token
      * @throws ForbiddenException
      * @throws TokenException
      */
-    public static function authentication($auth)
+    public static function authentication(string $auth)
     {
-        $Identity = self::getIdentity($auth);
+        $Identity = self::getIdentityKey($auth);
 
         $scope = self::getCurrentTokenVar('scope');
 
@@ -117,6 +115,73 @@ class Token
             throw new ForbiddenException([
                 'message' => '你无权访问'
             ]);
+        }
+    }
+
+    /**
+     * 获取校验身份列表
+     * @param array $list
+     * @return array
+     * @throws TokenException
+     */
+    protected static function getIdentityList(array $list)
+    {
+        if (is_array($list)) {
+            throw new TokenException([
+                'message' => '身份令牌验证信息缺失'
+            ]);
+        }
+
+        $Identity_arr = [
+            'user' => ScopeEnum::User,
+            'other' => ScopeEnum::Other,
+            'admin' => ScopeEnum::Admin
+        ];
+
+        foreach ($list as $value) {
+            if (!array_key_exists($value, $Identity_arr)) unset($Identity_arr[$value]);
+        }
+
+        if (empty($Identity_arr)) {
+            throw new TokenException([
+                'message' => '校验身份不存在'
+            ]);
+        }
+
+        return $Identity_arr;
+    }
+
+    /**
+     * 验证共有的允许(禁止)权限
+     * @param array $auth
+     * @param bool $allow
+     * @throws ForbiddenException
+     * @throws TokenException
+     */
+    public static function authenticationAllow(array $auth, bool $allow = true)
+    {
+        $Identity = self::getIdentityList($auth);
+
+        $scope = self::getCurrentTokenVar('scope');
+
+        if (!$scope) {
+            throw new TokenException([
+                'message' => '身份认证失败，请登陆'
+            ]);
+        }
+
+        if ($allow) {
+            if (!in_array($scope, $Identity)) {
+                throw new ForbiddenException([
+                    'message' => '你无权访问'
+                ]);
+            }
+        } else {
+            if (in_array($scope, $Identity)) {
+                throw new ForbiddenException([
+                    'message' => '你无权访问'
+                ]);
+            }
         }
     }
 

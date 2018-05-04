@@ -7,6 +7,7 @@
  */
 
 namespace app\api\controller;
+
 use app\api\model\Test as TestModel;
 
 /**
@@ -20,6 +21,6 @@ class Test
     {
         $test = new TestModel();
         $test->TestErr();
-        return 'test'.$params;
+        return 'test' . $params;
     }
 }

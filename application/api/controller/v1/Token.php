@@ -13,6 +13,8 @@ use app\api\controller\BaseController;
 use app\api\service\UserToken;
 use app\api\validate\LoginValidate;
 use app\lib\exception\SuccessMessage;
+use app\lib\exception\TokenException;
+use think\Cache;
 
 class Token extends BaseController
 {
@@ -34,6 +36,26 @@ class Token extends BaseController
         throw new SuccessMessage([
             'data' => ['token' => $token]
         ]);
+    }
+
+    /**
+     * 注销身份令牌
+     * @throws SuccessMessage
+     * @throws TokenException
+     */
+    public function quit()
+    {
+        $token = request()->header('token');
+
+        $res = Cache::store('redis')->set($token, null);
+
+        if(!$res){
+            throw new TokenException([
+                'message' => '注销异常'
+            ]);
+        }
+
+        throw new SuccessMessage();
     }
 
 }
