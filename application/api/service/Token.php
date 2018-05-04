@@ -152,7 +152,7 @@ class Token
     }
 
     /**
-     * 验证共有的允许(禁止)权限
+     * 验证跨域身份允许(禁止)权限
      * @param array $auth
      * @param bool $allow
      * @throws ForbiddenException
@@ -160,8 +160,6 @@ class Token
      */
     public static function authenticationAllow(array $auth, bool $allow = true)
     {
-        $Identity = self::getIdentityList($auth);
-
         $scope = self::getCurrentTokenVar('scope');
 
         if (!$scope) {
@@ -169,6 +167,8 @@ class Token
                 'message' => '身份认证失败，请登陆'
             ]);
         }
+
+        $Identity = self::getIdentityList($auth);
 
         if ($allow) {
             if (!in_array($scope, $Identity)) {
